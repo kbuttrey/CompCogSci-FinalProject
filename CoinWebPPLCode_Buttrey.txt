@@ -1,0 +1,170 @@
+
+/////////////////COIN MODELING///////////////////////////////////////////
+
+//Observed sequences
+var observedFaces1 = ['H', 'H', 'T', 'H', 'T', 'T', 'T', 'H']
+var observedFaces2 = ['H', 'T', 'H', 'T', 'H', 'T', 'H', 'T']
+var observedFaces3 = ['H', 'H', 'T', 'H', 'T', 'H', 'H', 'H']
+var observedFaces4 = ['H', 'H', 'H', 'H', 'H', 'H', 'H', 'H']
+
+
+//First, generate likelihoods using P(d_j|h_i)
+//the 4 indices of the likelihood lists corresponds to the 4 observed sequences above
+
+//Coin 1 (fair)
+var fairCoinLikelihood1 = 1 / 256 
+var fairCoinLikelihoods = [1 / 256, 1 / 256, 1 / 256, 1 / 256] // likelihood = (1 / 2^8)
+
+var p = 0.5
+var n = 8
+var fairCoinLikelihoodBinomial = Binomial({p, n}) 
+print(fairCoinLikelihoodBinomial)
+var fairCoinLikelihoodsB = [0.2734374999999999, 0.2734374999999999, 0.10937499999999996, 0.003906250000000001]
+
+
+//Coin 2 (always alternates H and T)
+var p = 0.99
+var n = 7
+//Binomial distribution over the seven possible state transitions
+//incorporate information about a given sequence
+
+//likelihood of number of transitions only--"rearranged" sequences are double counted
+var alternatingLikelihoodBinomial = Binomial({p, n}) 
+
+//likelihood of transitions in each position
+var altCoinLikelihood1 = (1-p)*p*p*p*(1-p)*(1-p)*p 
+var altCoinLikelihood2 = p*p*p*p*p*p*p
+var altCoinLikelihood3 = (1-p)*p*p*p*p*(1-p)*(1-p)
+var altCoinLikelihood4 = (1-p)*(1-p)*(1-p)*(1-p)*(1-p)*(1-p)*(1-p)
+
+var alternatingCoinLikelihoods = [altCoinLikelihood1, altCoinLikelihood2, altCoinLikelihood3, altCoinLikelihood4]
+var alternatingCoinLikelihoodsB = [0.0000336208603500001, 0.9320653479069899, 0.0000336208603500001, 1.0000000000000058e-14]
+print(alternatingCoinLikelihoods)
+
+//Coin 3 (mostly heads)
+var p = 0.85
+var n = 8
+
+var mostlyHeadsLikelihoodBinomial = Binomial({p, n}) //binomial distribution with p = 0.85 for 8 flips
+print(mostlyHeadsLikelihoodBinomial)
+
+var mostlyHeadsLikelihood1 = p*p*(1-p)*p*(1-p)*(1-p)*(1-p)*p
+var mostlyHeadsLikelihood2 = p*(1-p)*p*(1-p)*p*(1-p)*p*(1-p)
+var mostlyHeadsLikelihood3 = p*p*(1-p)*p*(1-p)*p*p*p
+var mostlyHeadsLikelihood4 = p*p*p*p*p*p*p*p
+
+//numbers of heads: [4, 4, 6, 8], numbers taken from printed mostlyHeadsLikelihoodBinomial
+var mostlyHeadsLikelihoods = [mostlyHeadsLikelihood1, mostlyHeadsLikelihood2, mostlyHeadsLikelihood3, mostlyHeadsLikelihood4]
+var mostlyHeadsLikelihoodsB = [0.018498596484375008, 0.018498596484375008, 0.23760419484374987, 0.27249052503906246]
+print(mostlyHeadsLikelihoods)
+
+//Coin 4 (always heads)
+var p = 0.99
+
+var alwaysHeadsLikelihoodBinomial = Binomial({p, n})
+
+var alwaysHeadsLikelihood1 = p*p*(1-p)*p*(1-p)*(1-p)*(1-p)*p
+var alwaysHeadsLikelihood2 = p*(1-p)*p*(1-p)*p*(1-p)*p*(1-p)
+var alwaysHeadsLikelihood3 = p*p*(1-p)*p*(1-p)*p*p*p
+var alwaysHeadsLikelihood4 = p*p*p*p*p*p*p*p
+
+var alwaysHeadsLikelihoods = [alwaysHeadsLikelihood1, alwaysHeadsLikelihood2, alwaysHeadsLikelihood3, alwaysHeadsLikelihood4]
+var alwaysHeadsLikelihoodsB = [6.724172070000041e-7, 6.724172070000041e-7, 0.002636144418322806, 0.9227446944279201]
+
+//reorganize likelihoods by sequence (data)
+var sequence1Likelihoods = [fairCoinLikelihoods[0], alternatingCoinLikelihoods[0], mostlyHeadsLikelihoods[0],  alwaysHeadsLikelihoods[0]]
+var sequence2Likelihoods = [fairCoinLikelihoods[1], alternatingCoinLikelihoods[1], mostlyHeadsLikelihoods[1],  alwaysHeadsLikelihoods[1]]
+var sequence3Likelihoods = [fairCoinLikelihoods[2], alternatingCoinLikelihoods[2], mostlyHeadsLikelihoods[2],  alwaysHeadsLikelihoods[2]]
+var sequence4Likelihoods = [fairCoinLikelihoods[3], alternatingCoinLikelihoods[3], mostlyHeadsLikelihoods[3],  alwaysHeadsLikelihoods[3]]
+
+var sequence1LikelihoodsB = [fairCoinLikelihoodsB[0], alternatingCoinLikelihoodsB[0], mostlyHeadsLikelihoodsB[0],  alwaysHeadsLikelihoodsB[0]]
+var sequence2LikelihoodsB = [fairCoinLikelihoodsB[1], alternatingCoinLikelihoodsB[1], mostlyHeadsLikelihoodsB[1],  alwaysHeadsLikelihoodsB[1]]
+var sequence3LikelihoodsB = [fairCoinLikelihoodsB[2], alternatingCoinLikelihoodsB[2], mostlyHeadsLikelihoodsB[2],  alwaysHeadsLikelihoodsB[2]]
+var sequence4LikelihoodsB = [fairCoinLikelihoodsB[3], alternatingCoinLikelihoodsB[3], mostlyHeadsLikelihoodsB[3],  alwaysHeadsLikelihoodsB[3]]
+
+print("Sequence Likelihoods B")
+print(sequence1LikelihoodsB)
+print(sequence2LikelihoodsB)
+print(sequence3LikelihoodsB)
+print(sequence4LikelihoodsB)
+
+//Second, generate measures of representativeness using R(d, h_i)
+//Priors for all hypotheses assumed to be equal
+
+//function to calculate the representativeness of the first sequence in likelihoods
+//change indices to change 
+var calculateRepresentativeness = function(likelihoods, index, other1, other2, other3) {
+  var denom = (1/3)*(likelihoods[other1] + likelihoods[other2] + likelihoods[other3])
+  var ratio = likelihoods[index] / denom
+  var representativeness = Math.log(ratio)
+  representativeness
+}
+
+//Sequence 1: ['H', 'H', 'T', 'H', 'T', 'T', 'T', 'H']
+//Human responses
+var sequence1HumanResponses = [6.8, 1.5, 1.9, 1.1]
+
+var seq1Hyp1B = calculateRepresentativeness(sequence1LikelihoodsB, 0, 1, 2, 3)
+var seq1Hyp2B = calculateRepresentativeness(sequence1LikelihoodsB, 1, 0, 2, 3)
+var seq1Hyp3B = calculateRepresentativeness(sequence1LikelihoodsB, 2, 0, 1, 3)
+var seq1Hyp4B = calculateRepresentativeness(sequence1LikelihoodsB, 3, 0, 1, 2)
+
+var sequence1RepresentativenessB = [seq1Hyp1B, seq1Hyp2B, seq1Hyp3B, seq1Hyp4B]
+
+
+//Sequence 2: ['H', 'T', 'H', 'T', 'H', 'T', 'H', 'T']
+//Human responses
+var sequence2HumanResponses = [4.8, 7, 2.1, 1.4]
+
+var seq2Hyp1B = calculateRepresentativeness(sequence2LikelihoodsB, 0, 1, 2, 3)
+var seq2Hyp2B = calculateRepresentativeness(sequence2LikelihoodsB, 1, 0, 2, 3)
+var seq2Hyp3B = calculateRepresentativeness(sequence2LikelihoodsB, 2, 0, 1, 3)
+var seq2Hyp4B = calculateRepresentativeness(sequence2LikelihoodsB, 3, 0, 1, 2)
+
+var sequence2RepresentativenessB = [seq2Hyp1B, seq2Hyp2B, seq2Hyp3B, seq2Hyp4B]
+
+
+//Sequence 3: ['H', 'H', 'T', 'H', 'T', 'H', 'H', 'H']
+//Human responses
+var sequence3HumanResponses = [4.9, 1.6, 6.5, 1.5]
+
+var seq3Hyp1B = calculateRepresentativeness(sequence3LikelihoodsB, 0, 1, 2, 3)
+var seq3Hyp2B = calculateRepresentativeness(sequence3LikelihoodsB, 1, 0, 2, 3)
+var seq3Hyp3B = calculateRepresentativeness(sequence3LikelihoodsB, 2, 0, 1, 3)
+var seq3Hyp4B = calculateRepresentativeness(sequence3LikelihoodsB, 3, 0, 1, 2)
+
+var sequence3RepresentativenessB = [seq3Hyp1B, seq3Hyp2B, seq3Hyp3B, seq3Hyp4B]
+
+
+
+//Sequence 3: ['H', 'H', 'H', 'H', 'H', 'H', 'H', 'H']
+//Human responses
+var sequence4HumanResponses = [2.1, 1, 5.8, 6.9]
+
+var seq4Hyp1B = calculateRepresentativeness(sequence4LikelihoodsB, 0, 1, 2, 3)
+var seq4Hyp2B = calculateRepresentativeness(sequence4LikelihoodsB, 1, 0, 2, 3)
+var seq4Hyp3B = calculateRepresentativeness(sequence4LikelihoodsB, 2, 0, 1, 3)
+var seq4Hyp4B = calculateRepresentativeness(sequence4LikelihoodsB, 3, 0, 1, 2)
+
+var sequence4RepresentativenessB = [seq4Hyp1B, seq4Hyp2B, seq4Hyp3B, seq4Hyp4B]
+
+//print representativeness values to determine appropriate scaling
+print("sequence representativenesses B")
+print(sequence1RepresentativenessB)
+print(sequence2RepresentativenessB)
+print(sequence3RepresentativenessB)
+print(sequence4RepresentativenessB)
+
+
+
+//PLOTTING
+//scale representativeness scores to [1,7] to match human data
+//likelihoods are multiplied by a factor of 7 
+//representativeness scores are scaled linearly as follows:
+//current min = -31.3191848718807; max = 3.79013838662673
+//scale linearly such that newValue = 0.159*oldValue + 5.97
+
+
+//values plotted in Excel
+
+
