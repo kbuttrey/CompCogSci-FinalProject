@@ -18,8 +18,19 @@ var p = 1/6
 var n = 8
 
 //set Binomial distribution for the fair coin equal to the exact likelihood
-var fairDieLikelihoodsB = [1 / 1/1679616, 1 / 1/1679616, 1 / 1/1679616, 1 / 1/1679616] // likelihood = (1 / 6^8)
+//var fairDieLikelihoodBinomial = Binomial({p, n}) 
+//print("fairDieLikelihoodBinomial")
+//print(fairDieLikelihoodBinomial)
+var fairDieLikelihoodsB1 = 0.2604762040847431*0.2604762040847431*0.3721088629782046*0.2325680393613779*0.2604762040847431*0.3721088629782046
+var fairDieLikelihoodsB2 = 0.3721088629782046*0.3721088629782046*0.3721088629782046*0.2325680393613779*0.026047620408474317*0.3721088629782046
+var fairDieLikelihoodsB3 = 0.3721088629782046*0.3721088629782046*0.2325680393613779*0.3721088629782046*0.026047620408474317*0.3721088629782046
+var fairDieLikelihoodsB4 = 0.026047620408474317*0.2325680393613779*0.2325680393613779*0.2325680393613779*0.2325680393613779*0.026047620408474317
+  
+var fairDieLikelihoodsB = [fairDieLikelihoodsB1, fairDieLikelihoodsB2, fairDieLikelihoodsB3, fairDieLikelihoodsB4] // likelihood = (1 / 6^8)
 
+print("fairDieLikelihoodsB")
+print(fairDieLikelihoodsB)
+print("end of fairDieLikelihoodsB")
 
 //Die 2 (mostly comes up 5)
 var p = 0.85 //probability of being 5
@@ -116,36 +127,38 @@ var calculateRepresentativeness = function(likelihoods, index, other1, other2, o
 //Human responses
 var sequence1HumanResponses = [6.7, 1.8, 1.4, 1]
 
-var seq1Hyp1 = calculateRepresentativeness(sequence1Likelihoods, 0, 1, 2, 3)
-var seq1Hyp2 = calculateRepresentativeness(sequence1Likelihoods, 1, 0, 2, 3)
-var seq1Hyp3 = calculateRepresentativeness(sequence1Likelihoods, 2, 0, 1, 3)
-var seq1Hyp4 = calculateRepresentativeness(sequence1Likelihoods, 3, 0, 1, 2)
+var seq1Hyp1B = calculateRepresentativeness(sequence1LikelihoodsB, 0, 1, 2, 3)
+var seq1Hyp2B = calculateRepresentativeness(sequence1LikelihoodsB, 1, 0, 2, 3)
+var seq1Hyp3B = calculateRepresentativeness(sequence1LikelihoodsB, 2, 0, 1, 3)
+var seq1Hyp4B = calculateRepresentativeness(sequence1LikelihoodsB, 3, 0, 1, 2)
 
-var sequence1Representativeness = [seq1Hyp1, seq1Hyp2, seq1Hyp3, seq1Hyp4]
+var sequence1RepresentativenessB = [seq1Hyp1B, seq1Hyp2B, seq1Hyp3B, seq1Hyp4B]
+
 
 
 //Sequence 2: 35652515
 //Human responses
 var sequence2HumanResponses = [5.1, 4.2, 2, 1]
 
-var seq2Hyp1 = calculateRepresentativeness(sequence2Likelihoods, 0, 1, 2, 3)
-var seq2Hyp2 = calculateRepresentativeness(sequence2Likelihoods, 1, 0, 2, 3)
-var seq2Hyp3 = calculateRepresentativeness(sequence2Likelihoods, 2, 0, 1, 3)
-var seq2Hyp4 = calculateRepresentativeness(sequence2Likelihoods, 3, 0, 1, 2)
+var seq2Hyp1B = calculateRepresentativeness(sequence2LikelihoodsB, 0, 1, 2, 3)
+var seq2Hyp2B = calculateRepresentativeness(sequence2LikelihoodsB, 1, 0, 2, 3)
+var seq2Hyp3B = calculateRepresentativeness(sequence2LikelihoodsB, 2, 0, 1, 3)
+var seq2Hyp4B = calculateRepresentativeness(sequence2LikelihoodsB, 3, 0, 1, 2)
 
-var sequence2Representativeness = [seq2Hyp1, seq2Hyp2, seq2Hyp3, seq2Hyp4]
+var sequence2RepresentativenessB = [seq2Hyp1B, seq2Hyp2B, seq2Hyp3B, seq2Hyp4B]
+
 
 
 //Sequence 3: 45561525
 //Human responses
 var sequence3HumanResponses = [4.9, 4.7, 1.5, 1]
 
-var seq3Hyp1 = calculateRepresentativeness(sequence3Likelihoods, 0, 1, 2, 3)
-var seq3Hyp2 = calculateRepresentativeness(sequence3Likelihoods, 1, 0, 2, 3)
-var seq3Hyp3 = calculateRepresentativeness(sequence3Likelihoods, 2, 0, 1, 3)
-var seq3Hyp4 = calculateRepresentativeness(sequence3Likelihoods, 3, 0, 1, 2)
+var seq3Hyp1B = calculateRepresentativeness(sequence3LikelihoodsB, 0, 1, 2, 3)
+var seq3Hyp2B = calculateRepresentativeness(sequence3LikelihoodsB, 1, 0, 2, 3)
+var seq3Hyp3B = calculateRepresentativeness(sequence3LikelihoodsB, 2, 0, 1, 3)
+var seq3Hyp4B = calculateRepresentativeness(sequence3LikelihoodsB, 3, 0, 1, 2)
 
-var sequence3Representativeness = [seq3Hyp1, seq3Hyp2, seq3Hyp3, seq3Hyp4]
+var sequence3RepresentativenessB = [seq3Hyp1B, seq3Hyp2B, seq3Hyp3B, seq3Hyp4B]
 
 
 
@@ -153,19 +166,20 @@ var sequence3Representativeness = [seq3Hyp1, seq3Hyp2, seq3Hyp3, seq3Hyp4]
 //Human responses
 var sequence4HumanResponses = [2.2, 1, 5.8, 7]
 
-var seq4Hyp1 = calculateRepresentativeness(sequence4Likelihoods, 0, 1, 2, 3)
-var seq4Hyp2 = calculateRepresentativeness(sequence4Likelihoods, 1, 0, 2, 3)
-var seq4Hyp3 = calculateRepresentativeness(sequence4Likelihoods, 2, 0, 1, 3)
-var seq4Hyp4 = calculateRepresentativeness(sequence4Likelihoods, 3, 0, 1, 2)
+var seq4Hyp1B = calculateRepresentativeness(sequence4LikelihoodsB, 0, 1, 2, 3)
+var seq4Hyp2B = calculateRepresentativeness(sequence4LikelihoodsB, 1, 0, 2, 3)
+var seq4Hyp3B = calculateRepresentativeness(sequence4LikelihoodsB, 2, 0, 1, 3)
+var seq4Hyp4B = calculateRepresentativeness(sequence4LikelihoodsB, 3, 0, 1, 2)
 
-var sequence4Representativeness = [seq4Hyp1, seq4Hyp2, seq4Hyp3, seq4Hyp4]
+var sequence4RepresentativenessB = [seq4Hyp1B, seq4Hyp2B, seq4Hyp3B, seq4Hyp4B]
+
 
 //print representativeness values to determine appropriate scaling
-print("sequence representativenesses")
-print(sequence1Representativeness)
-print(sequence2Representativeness)
-print(sequence3Representativeness)
-print(sequence4Representativeness)
+print("sequence representativenesses B")
+print(sequence1RepresentativenessB)
+print(sequence2RepresentativenessB)
+print(sequence3RepresentativenessB)
+print(sequence4RepresentativenessB)
 
 
 
